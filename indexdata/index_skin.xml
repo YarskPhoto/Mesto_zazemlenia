@@ -6,15 +6,16 @@
 
 
   <style name="IconDefaultPointSpotStyle"
-         url="%FIRSTXML%/spots/hotspot_image_sequence_user_defaultpoint0.png"
+         url="%FIRSTXML%/spots/hotspot_direction_sequence_user_defaultpoint0.png"
          visible="false"
          frame="0"
-         lastframe="12"
+         lastframe="18"
          framewidth="50"
          frameheight="50"
          stopspotsequence="false"
          crop="0|0|50|50"
          edge="center"
+         rotate="270"
          onloaded="startspotanimation(0.1);"
          onhover="onhoverIconDefaultPointSpotStyle"
          onout="onoutIconDefaultPointSpotStyle"
@@ -1718,7 +1719,7 @@
 	align="center"
 	bg="true"
 	bgcolor="0xf3f3f3"
-	bgalpha="0.96078431372549022"
+	bgalpha="1"
 	bgborder="0"
 	css="color:#151515;font-family:Times New Roman;font-weight:bold;font-size:14px;text-align:left;"
 	edge="bottom"
@@ -1733,62 +1734,10 @@
 
 
 
-<action name="viewControlZoomIn">
-	if(%1,
-		if(%2,
-			if(%2 LT view.fovmin,
-				zoomto(get(view.fovmin));
-			,
-				if(%2 LT view.fov,
-					zoomto(%2);
-				);
-			);
-		,
-			set(fov_moveforce, -1);
-			delayedcall(0.1, viewControlZoomStop());
-		);
-	,
-		set(fov_moveforce, -1);
-	);
-</action>
-<action name="viewControlZoomOut">
-	if(%1,
-		if(%2,
-			if(%2 GT view.fovmax,
-				zoomto(get(view.fovmax));
-			,
-				if(%2 GT view.fov,
-					zoomto(%2);
-				);
-			);
-		,
-			set(fov_moveforce, +1);
-			delayedcall(0.1, viewControlZoomStop());
-		);
-	,
-		set(fov_moveforce, +1);
-	);
-</action>
-<action name="viewControlZoomStop">
-	set(fov_moveforce, 0);
-</action>
-
   <!-- Hide / Show Controls -->
   <action name="hideTourControls">set(tour_displaycontrols, false);events.dispatch(hidetourcontrols);</action>
   <action name="showTourControls">set(tour_displaycontrols, true); events.dispatch(showtourcontrols);</action>
 
-
-  <!-- Fullscreen Management -->
-  <action name="exitFullScreen" devices="fullscreensupport">set(tour_fullscreen,false);set(fullscreen,false);</action>
-  <action name="enterFullScreen" devices="fullscreensupport">set(tour_fullscreen,true);set(fullscreen,true);</action>
-  <action name="switchFullScreen">if(tour_fullscreen,exitFullScreen();,enterFullScreen(););</action>
-
-  
-  <events name="krpanoExitFullscreenEvent"
-    onexitfullscreen="if(tour_fullscreen,exitFullScreenChangeEvent(););"
-    keep="true" />
-
-  <action name="exitFullScreenChangeEvent" devices="fullscreensupport">set(tour_fullscreen,false);events.dispatch(onexitfullscreen);</action>
 
 <action name="viewControlMoveUp">
 	if(%1,
@@ -1888,6 +1837,58 @@
 </action>
 <action name="viewControlMoveVertStop">
 	set(vlookat_moveforce, 0);
+</action>
+
+  <!-- Fullscreen Management -->
+  <action name="exitFullScreen" devices="fullscreensupport">set(tour_fullscreen,false);set(fullscreen,false);</action>
+  <action name="enterFullScreen" devices="fullscreensupport">set(tour_fullscreen,true);set(fullscreen,true);</action>
+  <action name="switchFullScreen">if(tour_fullscreen,exitFullScreen();,enterFullScreen(););</action>
+
+  
+  <events name="krpanoExitFullscreenEvent"
+    onexitfullscreen="if(tour_fullscreen,exitFullScreenChangeEvent(););"
+    keep="true" />
+
+  <action name="exitFullScreenChangeEvent" devices="fullscreensupport">set(tour_fullscreen,false);events.dispatch(onexitfullscreen);</action>
+
+<action name="viewControlZoomIn">
+	if(%1,
+		if(%2,
+			if(%2 LT view.fovmin,
+				zoomto(get(view.fovmin));
+			,
+				if(%2 LT view.fov,
+					zoomto(%2);
+				);
+			);
+		,
+			set(fov_moveforce, -1);
+			delayedcall(0.1, viewControlZoomStop());
+		);
+	,
+		set(fov_moveforce, -1);
+	);
+</action>
+<action name="viewControlZoomOut">
+	if(%1,
+		if(%2,
+			if(%2 GT view.fovmax,
+				zoomto(get(view.fovmax));
+			,
+				if(%2 GT view.fov,
+					zoomto(%2);
+				);
+			);
+		,
+			set(fov_moveforce, +1);
+			delayedcall(0.1, viewControlZoomStop());
+		);
+	,
+		set(fov_moveforce, +1);
+	);
+</action>
+<action name="viewControlZoomStop">
+	set(fov_moveforce, 0);
 </action>
 
 </krpano>
